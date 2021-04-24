@@ -1,5 +1,5 @@
-select id, loginid, loginpwd, 'demo' as 'additional'
-from `users`
+select id, loginId, loginPwd, 'demo' as 'additional'
+from `user`
 
 select ismale 'sex' from `employee`
 
@@ -13,15 +13,15 @@ end sex,
 salary
 from employee
 
-select id, `name`
+select id, `name`, 
 case
 when ismale = 1 then 'male'
 else 'female'
-end sex,
+end `sex`, 
 case
-when salary >= 10000 then 'high'
-when salary >= 5000 then 'middle'
+when salary>=10000 then 'high'
+when salary>=5000 then 'middle'
 else 'lower'
-end 'level',
+end `level`,
 salary
 from employee

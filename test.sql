@@ -2,7 +2,7 @@
 -- 登录
 
 select * from user
-where loginid = 'admin', loginpwd = '123455'
+where loginId = 'admin' and loginPwd = '123455'
 
 -- 查询员工表，按照员工的入职时间降序排序，并且使用分页查询
 -- 查询第2页，每页10条数据
