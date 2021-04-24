@@ -10,82 +10,30 @@ _为了解决内存和磁盘之间的存储格式不一致的问题_
 
 > 权限控制
 
-## 数据库设计
+## 表记录的增删改查
 
-> SQL：Structured Query Language 结构化查询语言
+> DML：Data Manipulation Language 数据操控语言
 
-> 大部分关系型数据库，拥有着基本一致的 sql 语法
+> create 增
 
-### 分支
+> retrieve 查
 
-1）DDL：Data Definition Language 数据定义语言
+> update 改
 
-> 操作数据库对象
+> delete 删
 
-2）DML：Data Manipulation Language 数据操控语言
+## 单表基本查询
 
-> 操作数据库记录
+> select from、where、order by、limit
 
-3）DCL：Data Control Language 数据控制语句
+_运行顺序：from、where、select、order by、limit_
 
-> 操作用户权限
+> select：别名，case end 语句、distinct 语句
 
-### 管理库
+> where：=、in、is、is not、><>=<=、between and、and、or、like
 
-> 创建库、切换当前库、删除库
+> order by：默认是 asc，升序；desc，降序
 
-### 管理表
+> limit：n，m，表示的是跳过 n 条数据，取出 m 条数据
 
-1） 创建表
-
-> 字段名 + 字段类型 + 是否是 null + 自增 + 默认值
-
-```yaml 字段类型
-bit：占一位，false 或 true 或 0 或 1
-int：占32位，整数
-decimal(M, N)：能精确计算的实数，M是总的数字位数，N是小数部分的位数
-char(n)：固定长度 n 的字符，如果没有达到，会用空格符进行填充
-varchar(n)：长度可变，最大长度为 n 的字符
-text：大量的字符
-date：仅日期
-time：仅时间
-datetime：日期和时间
-```
-
-2）修改表
-
-3）删除表
-
-### 主键和外键
-
-_一张表的外键一般是另一张表的主键_
-
-1）主键：根据设计原则，每张表都要有至少一个主键
-
-> 必须满足的要求：唯一、不能更改、无业务含义
-
-2）外键：用于产生关系的列
-
-> 外键会连接到另一张表（ 或自己 ）的主键
-
-### 表关系
-
-1）一对一：一个 A 对应一个 B，一个 B 对应一个 A
-
-> 把任意一张表的主键同时设置为外键
-
-2）一对多：一个 A 对应多个 B，一个 B 对应一个 A，A 和 B 是一对多，B 和 A 是多对一
-
-> 在多一端的表上设置外键，对应到另一张表的主键
-
-3）多对多：一个 A 对应多个 B，一个 B 对应多个 A
-
-> 需要新建一张表，关系表至少包含两个外键，分别对应到两张表
-
-### 三大设计范式
-
-1）要求数据库中的每列数据都是不可分割的数据项
-
-2）非主键列必须依赖于主键列
-
-3）非主键列必须直接依赖于主键列
+- 公式为：n = (pagesize - 1) \* pagesize ; m = pagesize
