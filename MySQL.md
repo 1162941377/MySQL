@@ -22,18 +22,12 @@ _为了解决内存和磁盘之间的存储格式不一致的问题_
 
 > delete 删
 
-## 单表基本查询
+## 联表查询
 
-> select from、where、order by、limit
+1）全连接（笛卡尔积）：join
 
-_运行顺序：from、where、select、order by、limit_
+2）左连接：left join
 
-> select：别名，case end 语句、distinct 语句
+3）右连接：right join
 
-> where：=、in、is、is not、><>=<=、between and、and、or、like
-
-> order by：默认是 asc，升序；desc，降序
-
-> limit：n，m，表示的是跳过 n 条数据，取出 m 条数据
-
-- 公式为：n = (pagesize - 1) \* pagesize ; m = pagesize
+4）内连接：inner join

@@ -1,20 +1,52 @@
--- 查询user表，得到账号为admin，密码为123456的用户
--- 登录
+-- 1. 创建一张team表，记录足球队
+-- 查询出对阵表
+select t1.`name` as 主场, t2.`name` as 客场
+from team as t1, team as t2
+where t1.id != t2.id
 
-select * from user
-where loginId = 'admin' and loginPwd = '123455'
+-- 2. 显示出所有员工的姓名、性别（使用男或女显示）、入职时间、薪水、所属部门（显示部门名称）、所属公司（显示公司名称）
+select e.`name` as 员工姓名
+case ismale
+when 1 then '男'
+else '女'
+end 性别,
+e.joinDate 入职时间,
+e.salary 薪水,
+d.`name` 部门名称,
+c.`name` 公司名称
+from employee as e
+inner join department as d on e.deptId = d.id
+inner join company as c on d.companyId = c.id
 
--- 查询员工表，按照员工的入职时间降序排序，并且使用分页查询
--- 查询第2页，每页10条数据
--- limit (page-1)*pagesize, pagesize
+-- 3. 查询腾讯和蚂蚁金服的所有员工姓名、性别、入职时间、部门名、公司名
+select e.`name` 员工姓名
+case ismale
+when 1 then '男'
+else '女'
+end 性别,
+e.joinDate 入职时间,
+e.salary 薪水,
+d.`name` 部门名称,
+c.`name` 公司名称
+from employee as e
+inner join department as d on e.deptId = d.id
+inner join company as c on d.companyId = c.id
+where c.`name` in ('腾讯科技', '蚂蚁金服')
 
-select * from employee
-order by employee.joinDate desc
-limit 10, 10
+-- 4. 查询渡一教学部的所有员工姓名、性别、入职时间、部门名、公司名
+select e.`name` 员工姓名
+case ismale
+when 1 then '男'
+else '女'
+end 性别,
+e.joinDate 入职时间,
+e.salary 薪水,
+d.`name` 部门名称,
+c.`name` 公司名称
+from employee as e
+inner join department as d on e.deptId = d.id
+inner join company as c on d.company = c.id
+where c.`name` like = '渡一' and d.`name` = '教学部'
 
--- 查询工资最高的女员工
-
-select * from employee
-where ismale = 0
-order by salary desc
-limit 0, 1
+-- 5. 列出所有公司员工居住的地址（要去掉重复）
+select distinct location from employee
