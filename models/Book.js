@@ -8,7 +8,9 @@ module.exports = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    imgurl: "DataTypes.STRING",
+    imgurl: {
+      type: DataTypes.STRING,
+    },
     publishDate: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 
 const Student = require("./Student");
 
-module.exports = sequelize.define(
+const Class = sequelize.define(
   "Class",
   {
     name: {
@@ -23,3 +23,5 @@ module.exports = sequelize.define(
 );
 
 Class.hasMany(Student);
+
+module.exports = Class;
