@@ -10,82 +10,40 @@ _为了解决内存和磁盘之间的存储格式不一致的问题_
 
 > 权限控制
 
-## 函数
+## mysql 驱动程序
 
-### 内置函数
+> 通过 createConnection 或 createPool 创建一个数据库连接，调用 end 方法断开，一般建议使用 createPool 创建，会得到一个资源池，更好地帮我们管理查询出来的数据结果，也可以设置数量等，详情见官网
 
-#### 数学：
+> 创建的时候，可以定义 multipleStatements 为 true，表示可以查询多条 sql 语句；如果要使用多条 sql 语句的话，记得通过（;）分号，表示一条语句的结束
 
-- abs（x）：返回 x 的绝对值
+1）驱动程序是连接内存和其它存储介质的桥梁
 
-- ceil（x）：返回的是大于 x 的最小整数值
+2）mysql 驱动程序是连接内存和 mysql 数据的桥梁
 
-- floor（x）：返回的是小于 x 的最大整数值
+3）mysql 驱动程序通常使用：mysql、mysql2（推荐，原名是 mysql-native）
 
-- mod（x，y）：返回 x/y 的模（余数）
+> 提供了 query 和 execute 查询函数
 
-- pi（）：返回的是圆周率
+1）使用 query 查询函数，可能会造成 sql 注入攻击
 
-- pand（）：返回的是 0-1 之间的随机值
+2）execute 则可以避免这一点，运用了 sql 的变量，在执行查询前会先进行预编译，判断可以执行后，才会执行查询函数，并返回结果
 
-- round（x，y）：返回的是参数 x 的四舍五入的 y 位小数的值
+> 第一个参数为 sql 查询语法，第二个参数为 node 的回调函数类型，第一个参数为错误信息，第二个参数为返回结果
 
-- truncate（x，y）：返回的是数字 x 截短为 y 位的小数的值
+_mysql2 这个库也很贴心地提供了 promise 语法，更好的利于我们操作数据_
 
-#### 聚合：
+> 如果要通过传递参数的形式，查询数据库的数据，使用 execute 更好
 
-- avg（col）：返回指定列的平均值
+> 要替换的参数位置，在 sql 查询语句中使用（ ? ），在调用 execute 时，接收两个参数，第一个参数为 sql 查询语句，第二个参数为传递的参数名，是一个数组
 
-- count（col）：返回指定列中非 null 值的个数
+```yaml 模糊查询 like
+like '%?%' // 这里的 ? 会被当做普通的字符串 ? 来使用，
+不是我们预期的结果，可以使用 concat 关键字拼接
+like concat('%', ?, '%')
+```
 
-- min（col）：返回指定列的最小值
+### sql 注入
 
-- max（col）：返回指定列的最大值
+> 用户通过注入 sql 语句到最终查询结果中，导致了整个 sql 与预期的行为不符
 
-- sum（col）：返回指定列的所有值之和
-
-##### 字符
-
-- concat（str）：将参数中的字符串拼接成一个总的字符串
-
-- concat_ws（sep，str）：将参数中的字符串拼接，并用 sep 字符间隔
-
-- trim（str）：去除字符串中首部和尾部的所有空格
-
-- ltrim（str）：去除字符串中的开头的所有空格
-
-- rtirm（str）：去除字符串中的尾部的所有空格
-
-#### 日期
-
-- curdate 或 current_date（）：返回的是当前日期
-
-- curtime 或 current_time（）：返回的是当前时间
-
-- timestampdiff（part，date1，date2）：返回的是 date1 到 date2 之间的间隔的值，part 用于指定相隔的年或月或日等
-
-1）microsecond：毫秒
-
-2）second：秒
-
-3）minute：分
-
-4）hour：时
-
-5）day：天
-
-6）week：周
-
-7）month：月
-
-8）quarter：一刻钟
-
-9）year：年
-
-### 自定义函数（略）
-
-## 分组
-
-> 运行顺序：from、join ... on、where、group by、select、having、order by、limit
-
-> 分组后，只能查询分组的列和聚合列
+> mysql 支持变量，变量的内容不作为任何的 sql 关键字
