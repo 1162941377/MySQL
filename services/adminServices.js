@@ -4,7 +4,7 @@
 
 const Admin = require("../models/Admin");
 
-exports.addAmin = async function (adminObj) {
+exports.addAdmin = async function (adminObj) {
   // 应该判断 adminObj 的各种属性是否合理，以及账号是否具有该权限
   const ins = await Admin.create(adminObj);
   return ins.toJSON(); // 转换为 JSON 格式

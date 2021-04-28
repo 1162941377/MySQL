@@ -22,6 +22,4 @@ const Class = sequelize.define(
   }
 );
 
-Class.hasMany(Student);
-
 module.exports = Class;
