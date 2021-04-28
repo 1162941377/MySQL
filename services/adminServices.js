@@ -43,3 +43,16 @@ exports.updateAdmin = async function (id, adminObj) {
     },
   });
 };
+
+exports.getAdminById = async function (id) {
+  const result = await Admin.findByPk(id);
+  if (result) {
+    return result.toJSON();
+  }
+  return null;
+};
+
+exports.getAdmins = async function () {
+  const result = await Admin.findAll();
+  return JSON.parse(JSON.stringify(result));
+};
