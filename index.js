@@ -1,11 +1,21 @@
 require("./models/relation");
 
-const bookServ = require("./services/bookServices");
+const adminServ = require("./services/adminServices");
 
-// bookServ.getBookById(1).then((res) => {
-//   console.log(res);
+// adminServ.addAdmin({
+//   loginId: "zjc",
+//   loginPwd: "666",
 // });
 
-bookServ.getBooks(1, 10, "王").then((res) => {
+// adminServ.addAdmin({
+//   loginId: "wh",
+//   loginPwd: "666",
+// });
+
+adminServ.login("zjc", "666").then((res) => {
   console.log(res);
-});
+}); // 查询成功
+
+adminServ.login("zjc", "zjc").then((res) => {
+  console.log(res);
+}); // 结果为null

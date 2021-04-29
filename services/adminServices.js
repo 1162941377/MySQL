@@ -3,9 +3,11 @@
 // 判断数据库中是否有管理员，如果没有，自动添加一个默认的管理员
 
 const Admin = require("../models/Admin");
+const md5 = require("md5");
 
 exports.addAdmin = async function (adminObj) {
   // 应该判断 adminObj 的各种属性是否合理，以及账号是否具有该权限
+  adminObj.loginPwd = md5(adminObj.loginPwd);
   const ins = await Admin.create(adminObj);
   return ins.toJSON(); // 转换为 JSON 格式
 };
@@ -42,6 +44,22 @@ exports.updateAdmin = async function (id, adminObj) {
       id,
     },
   });
+};
+
+exports.login = async function (loginId, loginPwd) {
+  loginPwd = md5(loginPwd);
+  const result = await Admin.findOne({
+    where: {
+      loginId,
+      loginPwd,
+    },
+  });
+  // 由于数据库是不区分大小写的，所以加上此验证
+  // 按理说，密码也是要判断的，但是由于使用了md5加密，大小写的字母加密后的结果不一致，所以可以不用
+  if (result && result.loginId === loginId) {
+    return result.toJSON();
+  }
+  return null;
 };
 
 exports.getAdminById = async function (id) {
