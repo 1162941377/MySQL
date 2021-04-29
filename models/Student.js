@@ -1,5 +1,6 @@
 const sequelize = require("./db");
 const { DataTypes } = require("sequelize");
+const moment = require("moment");
 
 module.exports = sequelize.define(
   "Student",
@@ -11,10 +12,21 @@ module.exports = sequelize.define(
     birthday: {
       type: DataTypes.DATE,
       allowNull: false,
+      get() {
+        return this.getDataValue("birthday").getTime(); // 转换为时间戳
+      },
     },
     sex: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+    },
+    age: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        const now = moment.utc();
+        const birth = moment.utc(this.birthday);
+        return now.diff(birth, "y"); // 得到两个日期的年份的差异
+      },
     },
     mobile: {
       type: DataTypes.STRING(11),

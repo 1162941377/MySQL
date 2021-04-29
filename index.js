@@ -1,4 +1,4 @@
-const moment = require("moment");
+/* const moment = require("moment");
 moment.locale("zh-cn"); // 转换为中国计时方式
 
 // 得到当前时间，moment对象
@@ -42,3 +42,30 @@ const formats = ["YYYY-MM-DD HH:mm:ss", "YYYY-M-D H:m:s", "x"]; // 表示的是�
 
 const m = moment.utc("2000-12-24 20:12:24", formats, true);
 console.log(m.local().fromNow()); // 返回的是距离现在的时间差
+ */
+
+/* require("./init");
+
+const stuServ = require("./services/studentServices");
+stuServ
+  .addStudent({
+    name: "邹家淳",
+    birthday: "2000-12-24",
+    sex: true,
+    mobile: "18556780474",
+    ClassId: 2,
+    deletedAt: "2021-04-19",
+    a: 3,
+    b: 4,
+  })
+  .catch((err) => {
+    console.log(err);
+  }); */
+
+require("./init");
+
+const stuServ = require("./services/studentServices");
+
+stuServ.getStudents().then((res) => {
+  console.log(res);
+});
